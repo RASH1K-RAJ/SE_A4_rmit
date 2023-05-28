@@ -25,6 +25,11 @@ public class Football {
     private int matchDuration;
 
     /**
+     * Match Name
+     */
+    private String name;
+
+    /**
      * Student available for the team
      */
     private List<Student> avail = new ArrayList<Student>();

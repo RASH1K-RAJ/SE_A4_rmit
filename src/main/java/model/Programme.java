@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -12,17 +12,17 @@ public class Programme {
      * Name and id of the programme
      */
     private String name;
-    print int pID;
+    private int pID;
 
     /**
      * Start date of the programme
      */
-    private Date startDate;
+    private LocalDate startDate;
 
     /**
      * End date of the programme
      */
-    private Date dueDate;
+    private LocalDate dueDate;
 
     /**
      * Estimated duration of the course in months
@@ -34,6 +34,18 @@ public class Programme {
      */
     private List<Student> enrolled = new ArrayList<Student>();
 
+    /**
+     * Constructor for the programme class
+     * @param name: stores the name of the program
+     * @param pID: stores the program ID
+     * @return
+     */
+    public Programme(String name, int pID){
+        this.name = name;
+        this.pID = pID;
+        this.startDate = LocalDate.of(2024, 8, 17);
+    }
+
     public String getName() {
         return name;
     }
@@ -42,7 +54,7 @@ public class Programme {
         this.name = name;
     }
 
-    public String getID() {
+    public int getID() {
         return pID;
     }
 
@@ -51,19 +63,19 @@ public class Programme {
     }
 
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -87,16 +99,37 @@ public class Programme {
     }
 
 
-
     /**
      * Add a new student to the programme
-     * @param Student: to enroll  to student in a programme 
+     * @param student: to enroll  to student in a programme 
+     * @param date: date of applicaton for enrollment by the student
+     * @param football: stores the football match object
      * @return true if the student is successfully enrolled, false otherwise
      */
 
-    public boolean addStudent(Student student){
-    	return false;
-   
+    public boolean addStudent(Student student, LocalDate date, Football football) throws IllegalStudentEnrollException{
+        boolean isAdded = true; //To store the return value
+        int comparison = this.getStartDate().compareTo(date); //Comparing Application Date and Start Date of the programme
+
+        //Trowing excpetion if student is already enrolled
+        if(enrolled.contains(student)){
+            throw new IllegalStudentEnrollException(student.getName() + " is already enrolled in the program.");
+        }
+        //Checking to see if start date of the programme has passed or not
+        if(comparison < 0) {
+            isAdded = false;
+        }
+        //Checking if the number of students in the program are less than 250 or not
+        if(enrolled.size() >= 250){
+            isAdded = false;
+        } 
+        //enrolling the student in the program
+        if(isAdded){
+            enrolled.add(student);
+            football.addAvailStudent(student);
+        }
+        
+    	return isAdded;
     }
 
 

@@ -50,7 +50,4 @@ public class Student {
         this.numberOfCourses = numberOfCourses;
     }
 
-
-    
-
 }

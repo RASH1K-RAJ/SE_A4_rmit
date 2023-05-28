@@ -1,7 +1,6 @@
 package utils;
 
 import model.Student;
-import model.Department;
 import model.Course;
 
 /**
